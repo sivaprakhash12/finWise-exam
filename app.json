@@ -6,6 +6,9 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "android": { "backgroundColor": "#00D09E" },
-    "ios": { "supportsTablet": false }
+    "ios": { "supportsTablet": false },
+    "experiments": {
+      "baseUrl": "/finWise-exam"
+    }
   }
 }
