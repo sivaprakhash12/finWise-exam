@@ -6,7 +6,7 @@ import { Chip, EmptyState, T } from '../../components/UI';
 import { TransactionItem } from '../../components/Finance';
 import { useApp } from '../../context/AppContext';
 import { COLORS } from '../../theme';
-import { money } from '../../utils/format';
+import { MONTHS, money } from '../../utils/format';
 import { groupByMonth, totals } from '../../utils/reports';
 
 // Part I – 4. Transaction (month wise) screen
@@ -18,8 +18,16 @@ export default function TransactionsScreen({ navigation }) {
   const all = totals(myTransactions);
   const byType = type === 'all' ? myTransactions : myTransactions.filter((t) => t.type === type);
   const sectionsAll = useMemo(() => groupByMonth(byType), [byType]);
-  const months = ['All', ...groupByMonth(myTransactions).map((s) => s.title)];
-  const sections = month === 'All' ? sectionsAll : sectionsAll.filter((s) => s.title === month);
+
+  const currentYear = new Date().getFullYear();
+  const allYearMonths = useMemo(() => MONTHS.map((m) => `${m} ${currentYear}`), [currentYear]);
+  const months = useMemo(() => ['All', ...allYearMonths], [allYearMonths]);
+
+  const sections = useMemo(() => {
+    if (month === 'All') return sectionsAll;
+    const selectedMonth = month.split(' ')[0].toLowerCase();
+    return sectionsAll.filter((s) => s.title.toLowerCase().startsWith(selectedMonth));
+  }, [month, sectionsAll]);
 
   const toggle = (t) => setType((cur) => (cur === t ? 'all' : t));
 

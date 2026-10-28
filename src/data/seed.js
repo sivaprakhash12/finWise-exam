@@ -55,51 +55,72 @@ let n = 0;
 const tx = (userId, daysAgo, h, m, title, category, amount, type = 'expense', message = '') => ({
   id: `T${++n}`, userId, title, category, amount, type, message, date: ago(daysAgo, h, m),
 });
+const currentYear = new Date().getFullYear();
+const txAt = (userId, monthIdx, day, h, m, title, category, amount, type = 'expense', message = '') => ({
+  id: `T${++n}`, userId, title, category, amount, type, message, date: new Date(currentYear, monthIdx, day, h, m).toISOString(),
+});
 
 export const SEED_TRANSACTIONS = [
-  // John – today / this week
+  // John – Today & Recent
   tx('25030024', 0, 9, 15, 'Breakfast', 'Food', 12.5),
   tx('25030024', 0, 13, 40, 'Metro Card', 'Transport', 20),
   tx('25030024', 1, 18, 27, 'Groceries', 'Groceries', 100),
   tx('25030024', 1, 20, 10, 'Dinner', 'Food', 26),
   tx('25030024', 2, 17, 0, 'Freelance Project', 'Freelance', 450, 'income'),
-  tx('25030024', 3, 11, 30, 'Pharmacy', 'Medicine', 35),
-  tx('25030024', 4, 19, 45, 'Movie Night', 'Entertainment', 30),
-  tx('25030024', 5, 12, 0, 'Lunch', 'Food', 18.4),
-  tx('25030024', 6, 8, 30, 'Fuel', 'Transport', 40),
-  // John – this month & earlier
-  tx('25030024', 9, 9, 0, 'Salary', 'Salary', 4000, 'income'),
-  tx('25030024', 9, 10, 0, 'Rent', 'Rent', 674.4),
-  tx('25030024', 12, 16, 20, 'Birthday Gift', 'Gifts', 60),
-  tx('25030024', 14, 15, 0, 'Travel Fund', 'Savings', 300),
-  tx('25030024', 20, 19, 0, 'Concert Ticket', 'Entertainment', 70),
-  tx('25030024', 33, 9, 0, 'Salary', 'Salary', 4000, 'income'),
-  tx('25030024', 33, 10, 0, 'Rent', 'Rent', 674.4),
-  tx('25030024', 36, 13, 10, 'Groceries', 'Groceries', 120),
-  tx('25030024', 40, 20, 30, 'Dinner Out', 'Food', 45),
-  tx('25030024', 45, 14, 0, 'Car Fund', 'Savings', 500),
-  tx('25030024', 63, 9, 0, 'Salary', 'Salary', 4000, 'income'),
-  tx('25030024', 63, 10, 0, 'Rent', 'Rent', 674.4),
-  tx('25030024', 70, 18, 0, 'Doctor Visit', 'Medicine', 80),
-  tx('25030024', 95, 9, 0, 'Salary', 'Salary', 3800, 'income'),
-  tx('25030024', 98, 12, 0, 'Groceries', 'Groceries', 140),
-  tx('25030024', 130, 9, 0, 'Salary', 'Salary', 3800, 'income'),
-  tx('25030024', 135, 19, 0, 'Shopping', 'Gifts', 210),
+
+  // John – All 12 Months (January to December)
+  txAt('25030024', 0, 15, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 0, 18, 14, 0, 'New Year Groceries', 'Groceries', 150),
+
+  txAt('25030024', 1, 12, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 1, 14, 20, 0, 'Valentine Dinner', 'Food', 85),
+
+  txAt('25030024', 2, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 2, 16, 11, 0, 'Health & Medicine', 'Medicine', 120),
+
+  txAt('25030024', 3, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 3, 22, 16, 0, 'Spring Shopping', 'Gifts', 180),
+
+  txAt('25030024', 4, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 4, 25, 12, 0, 'Vacation Tickets', 'Entertainment', 250),
+
+  txAt('25030024', 5, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 5, 20, 18, 0, 'House Rent', 'Rent', 674.4),
+
+  txAt('25030024', 6, 10, 9, 0, 'Monthly Salary', 'Salary', 3800, 'income'),
+  txAt('25030024', 6, 15, 13, 0, 'Electronics & Gadgets', 'Gifts', 190),
+
+  txAt('25030024', 7, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 7, 22, 19, 0, 'Fuel & Metro Travel', 'Transport', 140),
+
+  txAt('25030024', 8, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 8, 25, 20, 0, 'Family Dine Out', 'Food', 110),
+
+  txAt('25030024', 9, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 9, 20, 14, 0, 'Festival Gifts', 'Gifts', 220),
+
+  txAt('25030024', 10, 10, 9, 0, 'Monthly Salary', 'Salary', 4000, 'income'),
+  txAt('25030024', 10, 18, 16, 0, 'Winter Clothing', 'Gifts', 210),
+
+  txAt('25030024', 11, 10, 9, 0, 'Monthly Salary', 'Salary', 4200, 'income'),
+  txAt('25030024', 11, 24, 21, 0, 'Year End Celebration', 'Entertainment', 350),
+
   // Priya
   tx('25030025', 0, 11, 0, 'Coffee', 'Food', 6),
   tx('25030025', 2, 9, 0, 'Bus Pass', 'Transport', 25),
   tx('25030025', 8, 9, 0, 'Salary', 'Salary', 2500, 'income'),
   tx('25030025', 8, 11, 0, 'Hostel Rent', 'Rent', 400),
   tx('25030025', 15, 18, 0, 'Groceries', 'Groceries', 90),
-  tx('25030025', 38, 9, 0, 'Salary', 'Salary', 2500, 'income'),
-  tx('25030025', 41, 17, 0, 'Books', 'Gifts', 55),
+
   // Raja
   tx('25030026', 0, 10, 30, 'Breakfast', 'Food', 15),
   tx('25030026', 1, 14, 0, 'Business Lunch', 'Food', 28),
   tx('25030026', 2, 9, 0, 'Consulting Project', 'Freelance', 1200, 'income'),
-  tx('25030026', 3, 18, 0, 'Fuel Refill', 'Transport', 45),
-  tx('25030026', 5, 9, 0, 'Monthly Salary', 'Salary', 5000, 'income'),
-  tx('25030026', 6, 12, 0, 'Groceries Mart', 'Groceries', 110),
+  txAt('25030026', 0, 15, 9, 0, 'Monthly Salary', 'Salary', 5000, 'income'),
+  txAt('25030026', 2, 20, 11, 0, 'Laptop Upgrade', 'Freelance', 600),
+  txAt('25030026', 5, 10, 9, 0, 'Consulting Retainer', 'Salary', 5000, 'income'),
+  txAt('25030026', 9, 10, 9, 0, 'Monthly Salary', 'Salary', 5000, 'income'),
+  txAt('25030026', 11, 20, 18, 0, 'Annual Bonus', 'Salary', 3000, 'income'),
 ];
 
 export const SEED_NOTIFICATIONS = [
