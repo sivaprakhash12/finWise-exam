@@ -19,22 +19,48 @@ export default function DrawerContent({ navigation, state, items }) {
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.honeydew }}>
       <DrawerContentScrollView contentContainerStyle={{ paddingTop: 0 }}>
-        <View style={styles.head}>
+        <TouchableOpacity
+          style={styles.head}
+          activeOpacity={0.8}
+          onPress={() => {
+            navigation.closeDrawer();
+            if (currentUser.role === 'admin') {
+              navigation.navigate('EditProfile');
+            } else {
+              navigation.navigate('MainTabs', { screen: 'ProfileTab', params: { screen: 'EditProfile' } });
+            }
+          }}
+        >
           <View style={styles.avatar}><T weight="bold" style={{ color: COLORS.white, fontSize: 24 }}>{initials(currentUser.name)}</T></View>
           <T weight="bold" style={{ fontSize: 19, color: COLORS.white, marginTop: 12 }}>{currentUser.name}</T>
           <T style={{ fontSize: 12, color: COLORS.headerMuted, marginTop: 1 }}>{currentUser.email}</T>
-          <View style={styles.role}>
-            <T weight="bold" style={{ fontSize: 11, color: COLORS.primary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-              {currentUser.role === 'admin' ? 'Administrator' : 'Customer Account'}
-            </T>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+            <View style={styles.role}>
+              <T weight="bold" style={{ fontSize: 11, color: COLORS.primary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                {currentUser.role === 'admin' ? 'Administrator' : 'Customer Account'}
+              </T>
+            </View>
+            <View style={{ marginLeft: 8, flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.12)', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12 }}>
+              <Ionicons name="create-outline" size={13} color={COLORS.white} />
+              <T weight="semibold" style={{ fontSize: 11, color: COLORS.white, marginLeft: 4 }}>Edit</T>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={{ paddingHorizontal: 16, paddingTop: 18 }}>
           {items.map((it) => {
             const active = it.tab ? current.name === it.route && currentTab === it.tab : current.name === it.route;
             return (
               <TouchableOpacity key={it.label} style={[styles.item, active && styles.active]}
-                onPress={() => (it.tab ? navigation.navigate(it.route, { screen: it.tab }) : navigation.navigate(it.route))}>
+                onPress={() => {
+                  navigation.closeDrawer();
+                  if (it.screen && it.route) {
+                    navigation.navigate(it.route, { screen: it.screen });
+                  } else if (it.tab) {
+                    navigation.navigate(it.route, { screen: it.tab });
+                  } else {
+                    navigation.navigate(it.route);
+                  }
+                }}>
                 <Ionicons name={it.icon} size={21} color={active ? COLORS.primaryDark : COLORS.grey} />
                 <T weight={active ? 'bold' : 'medium'} style={{ fontSize: 14, marginLeft: 14, flex: 1, color: active ? COLORS.primaryDark : COLORS.dark }}>
                   {it.label}

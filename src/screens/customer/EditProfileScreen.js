@@ -11,7 +11,7 @@ import { Avatar } from './ProfileScreen';
 export default function EditProfileScreen({ navigation }) {
   const { currentUser, updateProfile } = useApp();
   const [f, setF] = useState({
-    name: currentUser.name, mobile: currentUser.mobile, email: currentUser.email, budget: String(currentUser.budget),
+    name: currentUser.name, mobile: currentUser.mobile, email: currentUser.email, budget: String(currentUser.budget || 20000),
     pushNotifications: currentUser.pushNotifications, darkTheme: currentUser.darkTheme,
   });
   const [errors, setErrors] = useState({});
@@ -27,7 +27,9 @@ export default function EditProfileScreen({ navigation }) {
     if (Object.keys(e).length) return;
     const res = updateProfile({ ...f, name: f.name.trim(), email: f.email.trim(), budget: Number(f.budget) });
     if (!res.ok) return setErrors({ email: res.error });
-    navigation.goBack();
+    if (navigation.canGoBack()) navigation.goBack();
+    else if (currentUser.role === 'admin') navigation.navigate('AdminTabs');
+    else navigation.navigate('MainTabs');
   };
 
   return (

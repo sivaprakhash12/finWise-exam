@@ -18,8 +18,12 @@ export function Header({ title, subtitle, left = 'menu', right = 'bell', align =
   const unread = app?.unreadCount || 0;
 
   const onLeft = () => {
-    if (left === 'back') navigation.goBack();
-    else navigation.dispatch(DrawerActions.openDrawer());
+    if (left === 'back') {
+      if (navigation.canGoBack()) navigation.goBack();
+      else navigation.dispatch(DrawerActions.openDrawer());
+    } else {
+      navigation.dispatch(DrawerActions.openDrawer());
+    }
   };
 
   return (
