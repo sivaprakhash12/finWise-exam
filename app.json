@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "FinWise",
+    "slug": "finwise-budget-tracker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": { "backgroundColor": "#00D09E" },
+    "ios": { "supportsTablet": false }
+  }
+}
