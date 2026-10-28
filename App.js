@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -19,11 +19,14 @@ const theme = {
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold });
-  const [splash, setSplash] = useState(true);
+  // On web, skip splash screen completely so it opens immediately without any loading delay!
+  const [splash, setSplash] = useState(Platform.OS !== 'web');
 
   useEffect(() => {
-    const t = setTimeout(() => setSplash(false), 1500);
-    return () => clearTimeout(t);
+    if (Platform.OS !== 'web') {
+      const t = setTimeout(() => setSplash(false), 1500);
+      return () => clearTimeout(t);
+    }
   }, []);
 
   return (
