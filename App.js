@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -21,15 +22,17 @@ export default function App() {
   const [splash, setSplash] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setSplash(false), 2000);
+    const t = setTimeout(() => setSplash(false), 1500);
     return () => clearTimeout(t);
   }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        {!fontsLoaded || splash ? (
-          <SplashScreen fontsLoaded={fontsLoaded} />
+        {splash ? (
+          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setSplash(false)}>
+            <SplashScreen fontsLoaded={fontsLoaded} />
+          </TouchableOpacity>
         ) : (
           <AppProvider>
             <NavigationContainer theme={theme}>
